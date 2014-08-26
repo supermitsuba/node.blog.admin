@@ -1,0 +1,13 @@
+<% for(var i = 0; i < data.length; i++){ %>
+	<tr>
+		<td>
+			<input type="button" value="Delete" class="delete-comments btn btn-primary" data-category="<%= data[i].PartitionKey %>" data-id="<%= data[i].RowKey %>" />
+		</td>
+		<td>
+			<%= data[i].Name %>
+		</td>
+		<td>
+			<%= data[i].Comment %>
+		</td>
+	</tr>
+<% } %>

@@ -1,0 +1,31 @@
+{
+  "name": "node.blog.admin",
+  "version": "0.0.0",
+  "description": "This is a site to admin for node.blog site",
+  "main": "server.js",
+  "dependencies": {
+    "azure": "~0.8.1",
+    "express": "~3.4.8",
+    "underscore": "~1.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/supermitsuba/node.blog.admin.git"
+  },
+  "keywords": [
+    "node",
+    "blog",
+    "admin"
+  ],
+  "author": "Jorden Lowe (supermitsuba)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/supermitsuba/node.blog.admin/issues"
+  },
+  "homepage": "https://github.com/supermitsuba/node.blog.admin"
+}

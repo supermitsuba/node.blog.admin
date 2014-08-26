@@ -1,0 +1,19 @@
+<% for(var i = 0; i < data.length; i++){ %>
+	<tr>
+		<td>
+			<input type="button" value="Edit" class="edit-events btn btn-primary" data-category="<%= data[i].PartitionKey %>" data-id="<%= data[i].RowKey %>" />
+		</td>
+		<td>
+			<%= data[i].RowKey %>
+		</td>
+		<td>
+			<%= data[i].WebLink %>
+		</td>
+		<td>
+			<%= data[i].DateOfEvent %>
+		</td>
+		<td>
+			<%= data[i].EventName %>
+		</td>
+	</tr>
+<% } %>

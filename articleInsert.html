@@ -1,0 +1,193 @@
+<!Doctype>
+<html>
+	<head>
+		<style type="text/css">
+			.hide{
+				display:none;
+			}
+
+			body div{
+				padding:5px;
+			}
+
+			label{
+				color:white;
+				background-color:black;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css">
+		<script type="text/javascript" src="/js/vendor/jquery-1.9.1.min.js" ></script>
+		<script type="text/javascript" src="/js/bootstrap.js" ></script>
+		<script type="text/javascript" src="/js/underscore.js" ></script>
+		<script type="text/javascript" src="/js/ejs.js"></script>
+		<script type="text/javascript" src="/js/site.js"></script>
+	</head>
+	<body>
+		<div>
+			<input type="button" id="newArticle" class="btn btn-info" value="New Article" />
+			<input type="button" id="viewEvents" class="btn btn-info" value="View Events" />
+			<a class="btn btn-info" href="/all">Export JSON</a>
+
+			<table class="article table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>#</td>
+						<td>ID</td>
+						<td>Category</td>
+						<td>Title</td>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>	
+		</div>	
+		<div class="hide edit-article form-horizontal">
+			<input type='hidden' id='RowKey' />
+			<div class="row-fluid">
+				<div class="span6">
+					
+					<div class="control-group">
+						<label class="control-label">Summary</label>
+						<div class="controls">
+							<textarea id="Summary" class="input-xxlarge" rows="10" cols="81"></textarea> 
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Post</label>
+						<div class="controls">
+							<textarea id="Post" class="input-xxlarge" rows="10" cols="81"></textarea>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="span4">
+					<div class="control-group">
+						<label class="control-label"> CategoryType </label>
+						<div class="controls">
+							<input id="CategoryType" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">DateOfArticle </label>
+						<div class="controls">
+							<input id="DateOfArticle" type="date">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Title </label>
+						<div class="controls">
+							<input id="Title" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label"> Author </label>
+						<div class="controls">
+							<input id="Author" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Comments Enabled?</label>
+						<div class="controls">
+							<input type="checkbox" id="isCommentEnabled">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">View Comments?</label>
+						<div class="controls">
+							<input type="button" class="btn btn-primary" id="viewComments" value="Comments">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<input type="button" class="btn btn-success" id="submit" value="Submit">
+							<input type="button" class="btn btn-danger" id="cancelArticle" value="Cancel" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="hide edit-comments">
+			<input type="button" class="btn btn-danger" id="cancelComment" value="Cancel" />
+			<table class="comments table table-bordered table-striped">
+				<thead>
+					<tr>
+						<td>#</td>
+						<td>Name</td>
+						<td>Comment</td>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div class="hide view-events">
+
+			<input type="button" id="cancelEvents" class="btn btn-danger" value="Go Back To Articles" />
+			<input type="button" id="newEvents" class="btn btn-info" value="New Events" />
+
+			<table class="event table table-bordered table-striped">				
+				<thead>
+					<tr>
+						<td>#</td>
+						<td>ID</td>
+						<td>Web Link</td>
+						<td>Event Date</td>
+						<td>Event Name</td>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="hide edit-events form-horizontal">
+			<input type='hidden' id='RowKey' />
+			<input type='hidden' id='PartitionKey' />
+
+			<div class="row-fluid">
+				<div class="span6">
+					
+					<div class="control-group">
+						<label class="control-label">Web Link</label>
+						<div class="controls">
+							<textarea id="WebLink" class="input-xxlarge" rows="10" cols="81"></textarea> 
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label">Event Name</label>
+						<div class="controls">
+							<textarea id="EventName" class="input-xxlarge" rows="10" cols="81"></textarea>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="span4">
+					<div class="control-group">
+						<label class="control-label"> Event Date </label>
+						<div class="controls">
+							<input id="DateOfEvent" type="date">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="controls">
+							<input type="button" class="btn btn-success" id="submitEvent" value="Submit">
+							<input type="button" class="btn btn-danger" id="cancelEvent" value="Cancel" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

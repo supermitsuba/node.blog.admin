@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>LJN - Create Control</title>
+    <meta name="description" content="LJN - Create Control">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+    <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <article>
+        <h1>LJN - Create Template</h1>
+
+        <section class="Template-Name">
+            <span>Template Name:</span>
+            <input type="text" id="TemplateName" placeholder="Enter name of template here" />
+            <input type="button" id="GenerateTemplate" value="Generate Template" />
+        </section>
+
+        <section class="Create-Control">
+
+            <div>
+                <span>Control to create:</span>
+                <select id="Controls">
+                    <option value="radio">Radio</option>
+                    <option value="comment">Comment</option>
+                    <option value="date">Date</option>
+                    <option value="warning">Warning</option>
+                    <option value="textbox">Text Box</option>
+                </select>
+                <span>
+                    <input type="button" id="AddControl" value="Add Control" />
+                </span>
+            </div>
+
+        </section>
+
+        <section class="LJN-Controls">
+            <ol>
+            </ol>
+        </section>
+
+        <section class="LJN-Modal">
+            <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog">
+                <input type="hidden" id="ControlIndex" />
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Modal header</h3>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                    <button id="AddLJNControl" class="btn btn-primary">Save changes</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="LJN-Generate-Modal">
+            <div id="generateModal" class="modal hide fade" tabindex="-1" role="dialog">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="H1">Your LJN Template</h3>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Here is your code file: <a href="#" id="CodeGenerate">CodeGeneration</a>
+                    </p>
+                    <p>
+                        Here is your xml file: <a href="#" id="XmlGenerate">XML Generate</a>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                </div>
+
+            </div>
+        </section>
+
+    </article>
+
+    <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>-->
+    <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/ejs_production.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('#AddControl').click(function () {
+                var controlName = $(this).parent().siblings('#Controls').val();
+                SetModalWindow(controlName, -1);
+            });
+
+            $('#GenerateTemplate').click(function () {
+                $('#generateModal').modal();
+
+                var text = 'using System;\
+                            //do this thing';
+
+                var xml = '<?xml><derp />';
+
+                $('#CodeGenerate').attr('href', 'data:text/plain;utf8,' + text);
+                $('#XmlGenerate').attr('href', 'data:text/xml;utf8,' + xml);
+            });
+
+            $('#AddLJNControl').click(function () {
+                var modalWindow = $('#myModal');
+                var controlName = $('#Controls :selected').val();
+                var index = $('#ControlIndex').val();
+
+                switch (controlName) {
+                    case 'date':
+                        SaveDate(modalWindow, index);
+                        break;
+                    case 'radio':
+                        SaveRadio(modalWindow, index);
+                        break;
+                    case 'textbox':
+                        SaveTextBox(modalWindow, index);
+                        break;
+                    case 'comment':
+                        SaveComment(modalWindow, index);
+                        break;
+                    case 'warning':
+                        SaveWarning(modalWindow, index);
+                    default:
+                        break;
+                }
+
+                modalWindow.modal('hide');
+            });
+
+        });
+
+        function SetModalWindow(controlName, index) {
+            var modalWindow = $('#myModal');
+            modalWindow.find('#myModalLabel').html('Adding a new ' + controlName);
+            var modalbody = modalWindow.find('.modal-body');
+            $('#Controls').val(controlName);
+
+            var html = "";
+            switch (controlName) {
+                case 'textbox':
+                    html = new EJS({ url: '/partial/textbox.ejs' }).render({});
+                    break;
+                case 'radio':
+                    html = new EJS({ url: '/partial/radio.ejs' }).render({});
+                    break;
+                case 'warning':
+                    html = new EJS({ url: '/partial/warning.ejs' }).render({});
+                    break;
+                case 'date':
+                    html = new EJS({ url: '/partial/date.ejs' }).render({});
+                    break;
+                case 'comment':
+                    html = new EJS({ url: '/partial/comment.ejs' }).render({});
+                    break;
+                default:
+                    break;
+            }
+            
+            modalbody.html(html);
+            $('#ControlIndex').val(index);
+
+            modalWindow.modal();
+        }
+
+        function SaveComment(modalWindow, index) {
+            var DisplayText = $('#DisplayText').val();
+            var AmpText = $('#AmpText').val();
+            var IsRequired = $('#IsRequired').is(':checked');
+
+            var data = {
+                'Type': 'comment',
+                'DisplayText': DisplayText,
+                'AmpText': AmpText,
+                'IsRequired': IsRequired
+            };
+                        
+            CreateControl(data, index);
+            SaveObject(data, index);
+        }
+
+        function EditComment(data) {
+            $('#DisplayText').val(data.DisplayText);
+            $('#AmpText').val(data.AmpText);
+            $('#IsRequired').attr('checked', data.IsRequired);
+        }
+
+        function SaveRadio(modalWindow, index) {
+            var DisplayText = $('#DisplayText').val();
+            var AmpText = $('#AmpText').val();
+            var IsRequired = $('#IsRequired').is(':checked');
+            var options = $('#RadioValues option');
+
+            var values = $.map(options, function (option) {
+                return option.value;
+            });
+
+            var data = {
+                'Type':'radio',
+                'DisplayText': DisplayText,
+                'AmpText': AmpText,
+                'IsRequired': IsRequired,
+                'Values': values
+            };
+
+            CreateControl(data, index);
+            SaveObject(data, index);
+        }
+
+        function EditRadio(data) {
+            $('#DisplayText').val(data.DisplayText);
+            $('#AmpText').val(data.AmpText);
+            $('#IsRequired').attr('checked', data.IsRequired);
+            for (var item in data.Values) {
+                var option = $("<option value=" + data.Values[item] + ">" + data.Values[item] + "</option>")
+                $('#RadioValues').append(option);
+            }
+        }
+
+        function SaveWarning(modalWindow, index) {
+            var DisplayText = $('#DisplayText').val();
+
+            var data = {
+                'Type': 'warning',
+                'DisplayText': DisplayText
+            };
+
+            CreateControl(data, index);
+            SaveObject(data, index);
+        }
+        
+        function EditWarning(data) {
+            $('#DisplayText').val(data.DisplayText);
+        }
+
+        function SaveTextBox(modalWindow, index) {
+            var DisplayText = $('#DisplayText').val();
+            var AmpText = $('#AmpText').val();
+            var IsRequired = $('#IsRequired').is(':checked');
+
+            var data = {
+                'Type': 'textbox',
+                'DisplayText': DisplayText,
+                'AmpText': AmpText,
+                'IsRequired': IsRequired
+            };
+
+            CreateControl(data, index);
+            SaveObject(data, index);
+        }
+
+        function EditTextBox(data) {
+            $('#DisplayText').val(data.DisplayText);
+            $('#AmpText').val(data.AmpText);
+            $('#IsRequired').attr('checked', data.IsRequired);
+        }
+
+        function SaveDate(modalWindow, index) {
+            var DisplayText = $('#DisplayText').val();
+            var AmpText = $('#AmpText').val();
+            var IsRequired = $('#IsRequired').is(':checked');
+            var DefaultDateValue = $('#DefaultDateValue').val();
+
+            var data = {
+                'Type': 'date',
+                'DisplayText': DisplayText,
+                'AmpText': AmpText,
+                'DefaultValue':DefaultDateValue,
+                'IsRequired': IsRequired
+            };
+
+            CreateControl(data, index);
+            SaveObject(data, index);
+        }
+
+        function EditDate(data) {
+            $('#DisplayText').val(data.DisplayText);
+            $('#AmpText').val(data.AmpText);
+            $('#IsRequired').attr('checked', data.IsRequired);
+            $('#DefaultDateValue').val(data.DefaultValue);
+        }
+
+        function CreateControl(data, index) {
+            var text = "<label>" + "Name: " + data.DisplayText + " Type: " + data.Type + "</label><input type='button' value='-' onclick='RemoveControl(this)' /><input type='button' value='Edit' onclick='EditControl(this)' />";
+            if (index == -1) {
+                $("<li/>").appendTo('.LJN-Controls ol').html(text);
+            }
+            else {
+                $($('.LJN-Controls ol').children()[index]).html(text);
+
+            }
+        }
+
+        function RemoveControl(myObj){
+            var parent = $(myObj).parent();
+            var index = parent.index();
+            parent.remove();
+            RemoveObject(index);
+        }
+
+        function EditControl(myObj) {
+            var parent = $(myObj).parent();
+            var index = parent.index();
+            var controlName = listOfControls[index].Type;
+
+            SetModalWindow(controlName, index);
+
+            switch (controlName) {
+                case 'comment':
+                    EditComment(listOfControls[index]);
+                    break;
+                case 'radio':
+                    EditRadio(listOfControls[index]);
+                    break;
+                case 'warning':
+                    EditWarning(listOfControls[index]);
+                    break;
+                case 'textbox':
+                    EditTextBox(listOfControls[index]);
+                    break;
+                case 'date':
+                    EditDate(listOfControls[index]);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        var listOfControls = [];
+        function RemoveObject(index) {
+            listOfControls.splice(index,1);
+        }
+        
+        function SaveObject(data, index) {
+            if (index == -1) {
+                listOfControls.push(data);
+            }
+            else {
+                listOfControls[index] = data;
+            }
+        }
+
+    </script>
+</body>
+</html>
