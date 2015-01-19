@@ -78,7 +78,7 @@ var instance = null;
 $(function(){
 
 	instance = controller.GetInstance();
-	instance.Get('/partial/Articles.ejs', '/articles', GetArticlesDone, InsertFail, true);
+	instance.Get('/partial/articles.ejs', '/articles', GetArticlesDone, InsertFail, true);
 
 	$('#submit').on('click',function(event){
 		var article = getArticleObject();
